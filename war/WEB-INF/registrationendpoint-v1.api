@@ -1,0 +1,279 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://pkdhello.appspot.com/_ah/api",
+  "name" : "registrationendpoint",
+  "version" : "v1",
+  "defaultVersion" : false,
+  "adapter" : {
+    "bns" : "https://pkdhello.appspot.com/_ah/spi",
+    "deadline" : 65.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "ownerDomain" : "usp.com",
+  "ownerName" : "usp.com",
+  "packagePath" : "reg.api",
+  "methods" : {
+    "registrationendpoint.getRegistration" : {
+      "path" : "registration/{id}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.usp.reg.api.RegistrationEndpoint.getRegistration",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "registrationendpoint.removeRegistration" : {
+      "path" : "registration/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.usp.reg.api.RegistrationEndpoint.removeRegistration",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "registrationendpoint.listRegistration" : {
+      "path" : "registration",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.usp.reg.api.RegistrationEndpoint.listRegistration",
+      "request" : {
+        "parameters" : {
+          "cursor" : {
+            "type" : "string",
+            "required" : false
+          },
+          "limit" : {
+            "type" : "int32",
+            "required" : false
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "registrationendpoint.insertRegistration" : {
+      "path" : "registration",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.usp.reg.api.RegistrationEndpoint.insertRegistration",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "registrationendpoint.updateRegistration" : {
+      "path" : "registration",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.usp.reg.api.RegistrationEndpoint.updateRegistration",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "Registration" : {
+        "id" : "Registration",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "legalName" : {
+            "type" : "string"
+          },
+          "spiritualName" : {
+            "type" : "string"
+          },
+          "age" : {
+            "type" : "integer"
+          },
+          "gender" : {
+            "$ref" : "Gender"
+          },
+          "addressLine1" : {
+            "type" : "string"
+          },
+          "addressLine2" : {
+            "type" : "string"
+          },
+          "city" : {
+            "type" : "string"
+          },
+          "stateProvinceRegion" : {
+            "type" : "string"
+          },
+          "zip" : {
+            "type" : "string"
+          },
+          "country" : {
+            "type" : "string"
+          },
+          "phoneNumber" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "keyValues" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "NameValue"
+            }
+          }
+        }
+      },
+      "Gender" : {
+        "id" : "Gender",
+        "type" : "string",
+        "enum" : [ "MALE", "FEMALE", "OTHER" ]
+      },
+      "NameValue" : {
+        "id" : "NameValue",
+        "type" : "object",
+        "properties" : {
+          "key" : {
+            "$ref" : "Key"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "value" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Key" : {
+        "id" : "Key",
+        "type" : "object",
+        "properties" : {
+          "kind" : {
+            "type" : "string"
+          },
+          "appId" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "complete" : {
+            "type" : "boolean"
+          },
+          "namespace" : {
+            "type" : "string"
+          },
+          "parent" : {
+            "$ref" : "Key"
+          }
+        }
+      },
+      "CollectionResponse_Registration" : {
+        "id" : "CollectionResponse_Registration",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Registration"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "methods" : {
+      "com.usp.reg.api.RegistrationEndpoint.getRegistration" : {
+        "response" : {
+          "$ref" : "Registration"
+        }
+      },
+      "com.usp.reg.api.RegistrationEndpoint.removeRegistration" : {
+      },
+      "com.usp.reg.api.RegistrationEndpoint.listRegistration" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Registration"
+        }
+      },
+      "com.usp.reg.api.RegistrationEndpoint.insertRegistration" : {
+        "request" : {
+          "$ref" : "Registration"
+        },
+        "response" : {
+          "$ref" : "Registration"
+        }
+      },
+      "com.usp.reg.api.RegistrationEndpoint.updateRegistration" : {
+        "request" : {
+          "$ref" : "Registration"
+        },
+        "response" : {
+          "$ref" : "Registration"
+        }
+      }
+    }
+  }
+}

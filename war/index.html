@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Demo</title>
+</head>
+<body>
+ 
+    <form action="javascript:void(0);">
+        <h2>List Registrations</h2>
+        <div><input id="listRegistrations" type="submit" value="List Registrations"></div>
+    </form>
+    <div id="listRegistrationsResult"></div>
+    
+    <form action="javascript:void(0);">
+      <h2>Insert New Registration</h2>
+         <div><input id="legalName" placeholder="Legal name here"></input></div>
+         <div><input id="addressLine1" placeholder="Address here"></input></div>
+         <div><input id="phoneNumber" placeholder="Phone number here"></input></div> 
+         <div><input id="insertRegistration" type="submit" value="Insert Registration"></div>
+    </form>
+    
+    <form action="javascript:void(0);">
+      <h2>Update Registration</h2>
+         <div><input id="editRegistrationID" placeholder="Registration ID value"></input></div>
+         <div><input id="editLegalName" placeholder="Name here"></input></div>
+         <div><input id="editAddressLine1" placeholder="Address here"></input></div>
+         <div><input id="editPhoneNumber" placeholder="Phone number here"></input></div>
+         <div><input id="updateRegistration" type="submit" value="Update Registration"></div>
+    </form>
+    
+    
+    <form action="javascript:void(0);">
+      <h2>Delete Registration</h2>
+         <div><input id="registrationId" placeholder="Registration ID value"></input></div>
+         <div><input id="deleteRegistration" type="submit" value="Delete Registration"></div>
+    </form>
+   <h2> For more information about the api <a href="https://pkdhello.appspot.com/_ah/api/explorer" target="_blank">click here</a> </h2> 
+    
+    <script type="text/javascript">
+        function init() {
+                //Parameters are APIName,APIVersion,CallBack function,API Root 
+                gapi.client.load('registrationendpoint', 'v1', null, 'https://pkdhello.appspot.com/_ah/api');
+                
+                document.getElementById('listRegistrations').onclick = function() {
+                    listRegistrations();
+                  }
+                
+                document.getElementById('insertRegistration').onclick = function() {
+                        insertRegistration();
+                }
+                
+                document.getElementById('updateRegistration').onclick = function() {
+                        updateRegistration();
+                }
+                
+                document.getElementById('deleteRegistration').onclick = function() {
+                        deleteRegistration();
+                }
+        }
+        
+        //List Registration function that will execute the listRegistration call
+        function listRegistrations() {
+                document.getElementById('listRegistrationsResult').innerHTML = "Please wait...";
+                gapi.client.registrationendpoint.listRegistration().execute(function(resp) {
+                        if (!resp.code) {
+                                resp.items = resp.items || [];
+                                var result = "";
+                                for (var i=0;i<resp.items.length;i++) {
+                                        result = "ID: " + resp.items[i].id + "  Name : "+ resp.items[i].legalName + ".   Address :" + resp.items[i].addressLine1 + ".   Phone : " + resp.items[i].phoneNumber + "<br/>";
+                                }
+                                document.getElementById('listRegistrationsResult').innerHTML = result;
+                        }
+                });
+        }
+        
+        //Insert Registration function
+        function insertRegistration() {
+                //Validate the entries
+                var _legalName = document.getElementById('legalName').value;
+                var _addressLine1 = document.getElementById('addressLine1').value;
+                var _phoneNumber = document.getElementById('phoneNumber').value;
+                
+                //Build the Request Object
+                var requestData = {};
+                requestData.legalName = _legalName;
+                requestData.addressLine1 = _addressLine1;
+                requestData.phoneNumber = _phoneNumber;
+                
+                gapi.client.registrationendpoint.insertRegistration(requestData).execute(function(resp) {
+                        if (!resp.code) {
+                                console.log(resp.id + ":" + resp.legalName + ":" + resp.phoneNumber);
+                                window.alert("Successful...." + JSON.stringify(resp));
+                        }
+                });
+        }
+        
+        //Update Registration function
+        function updateRegistration() {
+                //Validate the entries
+                var _id = document.getElementById("editRegistrationID").value;
+                var _legalName = document.getElementById('editLegalName').value;
+                var _addressLine1 = document.getElementById('editAddressLine1').value;
+                var _phoneNumber = document.getElementById('editPhoneNumber').value;
+                
+                //Build the Request Object
+                var requestData = {};
+                requestData.id = _id;
+                requestData.legalName = _legalName;
+                requestData.addressLine1 = _addressLine1;
+                requestData.phoneNumber = _phoneNumber;
+                gapi.client.registrationendpoint.updateRegistration(requestData).execute(function(resp) {
+                        if (!resp.code) {
+                                //Just logging to console now, you can do your check here/display message
+                                window.alert("Successful...." + JSON.stringify(resp));
+                        }
+                });
+        }
+        
+        //Delete Registration function
+        function deleteRegistration() {
+                //Validate the entries
+                var _id = document.getElementById('registrationId').value;
+                
+                //Build the Request Object
+                var requestData = {};
+                requestData.id = _id;
+                console.log(requestData);
+                gapi.client.registrationendpoint.removeRegistration(requestData).execute(function(resp) {
+                        //Just logging to console now, you can do your check here/display message
+                        window.alert("Successful...." + JSON.stringify(resp));
+                });
+        }
+        
+    </script>
+    <script src="https://apis.google.com/js/client.js?onload=init"></script>
+</body>
+</html>
